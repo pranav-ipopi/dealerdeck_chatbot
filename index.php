@@ -17,7 +17,10 @@ $postData = [
 $ch = curl_init($apiUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
-curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Content-Type: application/json',
+    'X-API-Key: dd_sk_114be8865b5f8f9ed22f590b61d6a9664ab039918c164b32'
+]);
 
 $response = curl_exec($ch);
 

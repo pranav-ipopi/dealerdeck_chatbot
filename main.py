@@ -4,7 +4,8 @@ import time
 import shutil
 from typing import Dict, Optional
 from pydantic import BaseModel
-from fastapi import FastAPI, HTTPException, UploadFile, File
+from fastapi import FastAPI, HTTPException, UploadFile, File, Depends, Security
+from fastapi.security.api_key import APIKeyHeader
 from fastapi.middleware.cors import CORSMiddleware
 
 from langchain_community.document_loaders import PyPDFLoader
@@ -32,6 +33,15 @@ from dotenv import load_dotenv
 
 # Load configuration from .env file
 load_dotenv()
+
+API_KEY = os.getenv("DEALERDECK_API_KEY", "dd_sk_114be8865b5f8f9ed22f590b61d6a9664ab039918c164b32")
+API_KEY_NAME = "X-API-Key"
+api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=False)
+
+async def get_api_key(api_key: str = Security(api_key_header)):
+    if api_key == API_KEY:
+        return api_key
+    raise HTTPException(status_code=403, detail="Could not validate credentials")
 
 def get_latest_pdf():
     pdf_files = glob.glob("data/*.pdf")
@@ -118,7 +128,7 @@ class ChatResponse(BaseModel):
 
 # 5. FastAPI Endpoints
 @app.post("/chat", response_model=ChatResponse)
-async def chat_endpoint(request: ChatRequest):
+async def chat_endpoint(request: ChatRequest, api_key: str = Depends(get_api_key)):
     # Generate new session ID if PHP doesn't pass one
     session_id = request.session_id or str(uuid.uuid4())
     
@@ -144,7 +154,7 @@ async def chat_endpoint(request: ChatRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/upload-knowledge-base")
-async def upload_knowledge_base(file: UploadFile = File(...)):
+async def upload_knowledge_base(file: UploadFile = File(...), api_key: str = Depends(get_api_key)):
     if not file.filename.endswith('.pdf'):
         raise HTTPException(status_code=400, detail="Only PDF files are allowed")
     
