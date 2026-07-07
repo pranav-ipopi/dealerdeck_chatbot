@@ -221,6 +221,25 @@
         <button id="dd-close-btn" class="dd-close-btn">&times;</button>
     </div>
     
+    <?php
+// Parse .env file to get dynamic URL and API Key
+$envFile = __DIR__ . '/.env';
+$apiUrl = 'http://localhost:8001'; // Default
+$apiKey = '';
+
+if (file_exists($envFile)) {
+    $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) continue;
+        list($name, $value) = explode('=', $line, 2);
+        $name = trim($name);
+        $value = trim($value);
+        if ($name === 'API_URL') $apiUrl = $value;
+        if ($name === 'DEALERDECK_API_KEY') $apiKey = $value;
+    }
+}
+?>
+    
     <div id="dd-chat-messages" class="dd-chat-messages">
         <div class="dd-message bot">Hello! I'm your DealerDeck AI Support assistant. How can I help you today?</div>
         
@@ -242,6 +261,9 @@
 <!-- Widget Logic -->
 <script>
     (function() {
+        const API_URL = "<?php echo $apiUrl; ?>";
+        const API_KEY = "<?php echo $apiKey; ?>";
+
         const chatBtn = document.getElementById('dd-chat-btn');
         const closeBtn = document.getElementById('dd-close-btn');
         const chatWindow = document.getElementById('dd-chat-window');
@@ -285,11 +307,11 @@
             scrollToBottom();
 
             try {
-                const response = await fetch('http://localhost:8001/chat', {
+                const response = await fetch(`${API_URL}/chat`, {
                     method: 'POST',
                     headers: { 
                         'Content-Type': 'application/json',
-                        'X-API-Key': 'dd_sk_114be8865b5f8f9ed22f590b61d6a9664ab039918c164b32'
+                        'X-API-Key': API_KEY
                     },
                     body: JSON.stringify({ session_id: sessionId, message: text })
                 });

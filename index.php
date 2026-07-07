@@ -6,8 +6,24 @@ if (!isset($_SESSION['chat_session_id'])) {
     $_SESSION['chat_session_id'] = null; // FastAPI will generate and return one on first call
 }
 
-$userMessage = "What is the policy details?"; // Get this from your HTML form input
+// Parse .env file
+$envFile = __DIR__ . '/.env';
 $apiUrl = "http://localhost:8001/chat";
+$apiKey = "dd_sk_114be8865b5f8f9ed22f590b61d6a9664ab039918c164b32";
+
+if (file_exists($envFile)) {
+    $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) continue;
+        list($name, $value) = explode('=', $line, 2);
+        $name = trim($name);
+        $value = trim($value);
+        if ($name === 'API_URL') $apiUrl = $value . "/chat";
+        if ($name === 'DEALERDECK_API_KEY') $apiKey = $value;
+    }
+}
+
+$userMessage = "What is the policy details?"; // Get this from your HTML form input
 
 $postData = [
     'session_id' => $_SESSION['chat_session_id'],
@@ -19,7 +35,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Content-Type: application/json',
-    'X-API-Key: dd_sk_114be8865b5f8f9ed22f590b61d6a9664ab039918c164b32'
+    'X-API-Key: ' . $apiKey
 ]);
 
 $response = curl_exec($ch);

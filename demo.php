@@ -80,10 +80,10 @@
             statusText.style.color = "#3b82f6";
             
             try {
-                const response = await fetch('http://localhost:8001/upload-knowledge-base', {
+                const response = await fetch('<?php echo $apiUrl; ?>/upload-knowledge-base', {
                     method: 'POST',
                     headers: {
-                        'X-API-Key': 'dd_sk_114be8865b5f8f9ed22f590b61d6a9664ab039918c164b32'
+                        'X-API-Key': '<?php echo $apiKey; ?>'
                     },
                     body: formData
                 });

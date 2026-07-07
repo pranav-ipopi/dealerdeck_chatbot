@@ -1,5 +1,5 @@
-# Replace yourdomain.com with your actual domain or VPS IP
-yourdomain.com {
+# Caddyfile for both testing and production
+dealerchatbot.duckdns.org, chatbot.dealerdeck.ai {
     # Proxy all traffic to the FastAPI application running on port 8001
     reverse_proxy localhost:8001 {
         header_up Host {host}
@@ -9,5 +9,5 @@ yourdomain.com {
     }
 
     # Enable automatic HTTPS via Let's Encrypt
-    tls your-email@example.com
+    tls support@dealerdeck.ai
 }

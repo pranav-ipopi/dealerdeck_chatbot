@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +17,7 @@
             padding: 40px;
             color: #334155;
         }
-        
+
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -41,7 +42,7 @@
         /* ---------------------------------------------------------------- */
         /* WIDGET STYLES (Copied from chat_widget.php) */
         /* ---------------------------------------------------------------- */
-        
+
         :root {
             --dd-primary: #3b82f6;
             --dd-primary-hover: #2563eb;
@@ -71,7 +72,7 @@
             z-index: 9999;
             transition: transform 0.2s, background-color 0.2s;
         }
-        
+
         .dd-chat-btn:hover {
             background-color: var(--dd-primary-hover);
             transform: scale(1.05);
@@ -160,20 +161,32 @@
             background-color: var(--dd-bot-msg);
             align-self: flex-start;
             border-bottom-left-radius: 4px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
-        .dd-message.bot p { margin: 0 0 8px 0; }
-        .dd-message.bot p:last-child { margin: 0; }
-        .dd-message.bot ul { margin: 0 0 8px 20px; padding: 0; }
-        .dd-message.bot strong { color: var(--dd-primary); }
+        .dd-message.bot p {
+            margin: 0 0 8px 0;
+        }
+
+        .dd-message.bot p:last-child {
+            margin: 0;
+        }
+
+        .dd-message.bot ul {
+            margin: 0 0 8px 20px;
+            padding: 0;
+        }
+
+        .dd-message.bot strong {
+            color: var(--dd-primary);
+        }
 
         .dd-message.user {
             background-color: var(--dd-user-msg);
             color: white;
             align-self: flex-end;
             border-bottom-right-radius: 4px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
         /* Input Area */
@@ -226,10 +239,13 @@
             border-radius: 12px;
             border-bottom-left-radius: 4px;
             gap: 4px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
-        .dd-typing.visible { display: flex; }
-        
+
+        .dd-typing.visible {
+            display: flex;
+        }
+
         .dd-dot {
             width: 6px;
             height: 6px;
@@ -237,42 +253,63 @@
             border-radius: 50%;
             animation: dd-bounce 1.4s infinite ease-in-out both;
         }
-        .dd-dot:nth-child(1) { animation-delay: -0.32s; }
-        .dd-dot:nth-child(2) { animation-delay: -0.16s; }
-        
-        @keyframes dd-bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
+
+        .dd-dot:nth-child(1) {
+            animation-delay: -0.32s;
         }
-        
+
+        .dd-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes dd-bounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1);
+            }
+        }
+
         ::-webkit-scrollbar {
             width: 6px;
         }
+
         ::-webkit-scrollbar-track {
             background: transparent;
         }
+
         ::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 10px;
         }
     </style>
 </head>
+
 <body>
 
     <!-- Demo Content -->
     <div class="container">
         <h1>Welcome to Your Website! (Local HTML Demo)</h1>
         <p>This is a demonstration of how the widget works.</p>
-        <p>Because you are testing this locally without PHP, all the HTML, CSS, and JS for the widget are embedded directly in this <code>index.html</code> file!</p>
+        <p>Because you are testing this locally without PHP, all the HTML, CSS, and JS for the widget are embedded
+            directly in this <code>index.html</code> file!</p>
         <p>Look in the bottom right corner for the chat bubble.</p>
-        
+
         <hr style="margin: 30px 0; border: none; border-top: 1px solid #e2e8f0;">
-        
+
         <h3>Admin: Update Knowledge Base</h3>
         <p>Upload a new PDF to instantly update the AI's knowledge base.</p>
         <div style="display: flex; gap: 10px; margin-top: 15px;">
-            <input type="file" id="kb-upload" accept=".pdf" style="flex: 1; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px; font-family: inherit;">
-            <button id="kb-upload-btn" style="background: #10b981; color: white; border: none; padding: 0 20px; border-radius: 6px; cursor: pointer; font-weight: 500; font-family: inherit;">Upload PDF</button>
+            <input type="file" id="kb-upload" accept=".pdf"
+                style="flex: 1; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px; font-family: inherit;">
+            <button id="kb-upload-btn"
+                style="background: #10b981; color: white; border: none; padding: 0 20px; border-radius: 6px; cursor: pointer; font-weight: 500; font-family: inherit;">Upload
+                PDF</button>
         </div>
         <p id="kb-status" style="margin-top: 10px; font-size: 14px; font-weight: 500;"></p>
     </div>
@@ -280,10 +317,13 @@
     <!-- ---------------------------------------------------------------- -->
     <!-- WIDGET HTML (Copied from chat_widget.php)                        -->
     <!-- ---------------------------------------------------------------- -->
-    
+
     <button id="dd-chat-btn" class="dd-chat-btn">
         <!-- Chat Icon -->
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
     </button>
 
     <div id="dd-chat-window" class="dd-chat-window">
@@ -291,21 +331,25 @@
             <h3>DealerDeck Support</h3>
             <button id="dd-close-btn" class="dd-close-btn">&times;</button>
         </div>
-        
+
         <div id="dd-chat-messages" class="dd-chat-messages">
             <div class="dd-message bot">Hello! I'm your DealerDeck AI Support assistant. How can I help you today?</div>
-            
+
             <div id="dd-typing" class="dd-typing">
                 <div class="dd-dot"></div>
                 <div class="dd-dot"></div>
                 <div class="dd-dot"></div>
             </div>
         </div>
-        
+
         <div class="dd-chat-input-area">
             <input type="text" id="dd-user-input" placeholder="Ask a question..." autocomplete="off">
             <button id="dd-send-btn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
             </button>
         </div>
     </div>
@@ -314,7 +358,16 @@
     <!-- WIDGET LOGIC (Copied from chat_widget.php)                       -->
     <!-- ---------------------------------------------------------------- -->
     <script>
-        (function() {
+        // ==========================================
+        // CONFIGURATION
+        // Edit these variables to point to your VPS
+        // ==========================================
+        const CONFIG = {
+            API_URL: 'https://dealerchatbot.duckdns.org',
+            API_KEY: 'dd_sk_114be8865b5f8f9ed22f590b61d6a9664ab039918c164b32'
+        };
+
+        (function () {
             const chatBtn = document.getElementById('dd-chat-btn');
             const closeBtn = document.getElementById('dd-close-btn');
             const chatWindow = document.getElementById('dd-chat-window');
@@ -322,7 +375,7 @@
             const userInput = document.getElementById('dd-user-input');
             const sendBtn = document.getElementById('dd-send-btn');
             const typingIndicator = document.getElementById('dd-typing');
-            
+
             let sessionId = null;
 
             // Toggle window
@@ -336,13 +389,13 @@
             function addMessage(text, sender) {
                 const msgDiv = document.createElement('div');
                 msgDiv.className = `dd-message ${sender}`;
-                
+
                 if (sender === 'bot') {
                     msgDiv.innerHTML = marked.parse(text);
                 } else {
                     msgDiv.textContent = text;
                 }
-                
+
                 chatMessages.insertBefore(msgDiv, typingIndicator);
                 scrollToBottom();
             }
@@ -353,16 +406,16 @@
 
                 addMessage(text, 'user');
                 userInput.value = '';
-                
+
                 typingIndicator.classList.add('visible');
                 scrollToBottom();
 
                 try {
-                    const response = await fetch('http://localhost:8001/chat', {
+                    const response = await fetch(`${CONFIG.API_URL}/chat`, {
                         method: 'POST',
-                        headers: { 
+                        headers: {
                             'Content-Type': 'application/json',
-                            'X-API-Key': 'dd_sk_114be8865b5f8f9ed22f590b61d6a9664ab039918c164b32'
+                            'X-API-Key': CONFIG.API_KEY
                         },
                         body: JSON.stringify({ session_id: sessionId, message: text })
                     });
@@ -370,11 +423,11 @@
                     if (!response.ok) throw new Error('Network error');
 
                     const data = await response.json();
-                    sessionId = data.session_id; 
-                    
+                    sessionId = data.session_id;
+
                     typingIndicator.classList.remove('visible');
                     addMessage(data.response, 'bot');
-                    
+
                 } catch (error) {
                     console.error(error);
                     typingIndicator.classList.remove('visible');
@@ -392,34 +445,34 @@
         document.getElementById('kb-upload-btn').addEventListener('click', async () => {
             const fileInput = document.getElementById('kb-upload');
             const statusText = document.getElementById('kb-status');
-            
+
             if (!fileInput.files.length) {
                 statusText.textContent = "Please select a PDF file first.";
                 statusText.style.color = "#ef4444";
                 return;
             }
-            
+
             const file = fileInput.files[0];
             const formData = new FormData();
             formData.append('file', file);
-            
+
             statusText.textContent = "Uploading and rebuilding knowledge base...";
             statusText.style.color = "#3b82f6";
-            
+
             try {
-                const response = await fetch('http://localhost:8001/upload-knowledge-base', {
+                const response = await fetch(`${CONFIG.API_URL}/upload-knowledge-base`, {
                     method: 'POST',
                     headers: {
-                        'X-API-Key': 'dd_sk_114be8865b5f8f9ed22f590b61d6a9664ab039918c164b32'
+                        'X-API-Key': CONFIG.API_KEY
                     },
                     body: formData
                 });
-                
+
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(errorData.detail || 'Upload failed');
                 }
-                
+
                 const data = await response.json();
                 statusText.textContent = "Success! " + data.message;
                 statusText.style.color = "#10b981";
@@ -432,4 +485,5 @@
         });
     </script>
 </body>
+
 </html>
