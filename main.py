@@ -34,7 +34,7 @@ from dotenv import load_dotenv
 # Load configuration from .env file
 load_dotenv()
 
-API_KEY = os.getenv("DEALERDECK_API_KEY", "dd_sk_114be8865b5f8f9ed22f590b61d6a9664ab039918c164b32")
+API_KEY = os.getenv("DEALERDECK_API_KEY")
 API_KEY_NAME = "X-API-Key"
 api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=False)
 
